@@ -1,3 +1,5 @@
+"""Fonctions de validation de la configuration applicative."""
+
 # Plage acceptable pour le timeout applicatif, en secondes.
 MIN_TIMEOUT = 0
 MAX_TIMEOUT = 60
