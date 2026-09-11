@@ -12,3 +12,9 @@ Ce guide couvre l'installation, le workflow Git de l'équipe, le dépannage cour
 
 - Erreur de push refusé sur `main` : la branche est protégée, passer par une pull request.
 - Conflit de merge : éditer le fichier, retirer les marqueurs `<<<<<<<`/`=======`/`>>>>>>>`, puis committer la résolution.
+
+## Commandes utiles
+
+- `git status` — état du dépôt
+- `git log --oneline --graph --all` — visualiser l'historique
+- `git rebase -i <base>` — nettoyer l'historique d'une branche avant PR
