@@ -1,7 +1,6 @@
 # Scénario git bisect : étape 4
 
-Un test (`scripts/test_validate_timeout.py`) a commencé à échouer quelque part dans les 7 derniers
-commits de `feature/bisect-demo`, sans savoir lequel était en cause.
+Le test `scripts/test_validate_timeout.py` a commencé à échouer quelque part dans les 7 derniers commits de `feature/bisect-demo`, sans savoir lequel.
 
 ## Recherche
 
@@ -11,8 +10,7 @@ git bisect bad HEAD
 git bisect good 36ece2a
 ```
 
-À chaque étape, `python scripts/test_validate_timeout.py` a été exécuté pour qualifier objectivement
-l'état testé (`good` si le script affiche `OK` et sort en code 0, `bad` sinon) plutôt que de deviner.
+À chaque étape, `python scripts/test_validate_timeout.py` a été lancé pour juger l'état (`good` si le script affiche `OK`, `bad` sinon), pas au feeling.
 
 ## Log complet
 
@@ -31,13 +29,10 @@ git bisect good 0025035
 # first bad commit: [85a93d9] refactor(scripts): simplifie la condition de validation
 ```
 
-## Commit fautif identifié
+## Commit fautif
 
-`85a93d9` (`refactor(scripts): simplifie la condition de validation`) a remplacé
-`MIN_TIMEOUT < seconds <= MAX_TIMEOUT` par `MIN_TIMEOUT < seconds < MAX_TIMEOUT`, excluant par erreur
-la borne maximale (60) du domaine valide.
+`85a93d9` (`refactor(scripts): simplifie la condition de validation`) a remplacé `MIN_TIMEOUT < seconds <= MAX_TIMEOUT` par `MIN_TIMEOUT < seconds < MAX_TIMEOUT`. Résultat : la borne max (60) était exclue par erreur.
 
 ## Correctif
 
-Voir le commit `fix(scripts): corrige la borne max exclue par erreur (isole via git bisect)`, qui
-restaure le `<=`.
+Commit `fix(scripts): corrige la borne max exclue par erreur (isole via git bisect)`, qui remet le `<=`.
