@@ -1,4 +1,4 @@
-# Test de la protection de branche — étape 6
+# Test de la protection de branche : étape 6
 
 Règles configurées sur `main` (via l'API GitHub) :
 

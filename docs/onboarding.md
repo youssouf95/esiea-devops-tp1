@@ -15,9 +15,9 @@ Ce guide couvre l'installation, le workflow Git de l'équipe, le dépannage cour
 
 ## Commandes utiles
 
-- `git status` — état du dépôt
-- `git log --oneline --graph --all` — visualiser l'historique
-- `git rebase -i <base>` — nettoyer l'historique d'une branche avant PR
+- `git status` : etat du depot
+- `git log --oneline --graph --all` : visualiser l'historique
+- `git rebase -i <base>` : nettoyer l'historique d'une branche avant PR
 
 
 ## Signature des commits
