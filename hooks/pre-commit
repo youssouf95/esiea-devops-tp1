@@ -1,0 +1,27 @@
+#!/bin/sh
+# Refuse un commit si le contenu stage contient un motif de secret evident
+# (cle d'API, mot de passe, cle privee). Installation : voir README.md.
+
+PATTERN='(AKIA[0-9A-Z]{16}|-----BEGIN( RSA| OPENSSH)? PRIVATE KEY-----|(api|secret)[_-]?key["'"'"']?\s*[:=]\s*["'"'"'][A-Za-z0-9/+_-]{16,}|password\s*[:=]\s*["'"'"'][^"'"'"' ]{6,})'
+
+staged_files=$(git diff --cached --name-only --diff-filter=ACM)
+found=0
+
+for file in $staged_files; do
+    if [ -f "$file" ]; then
+        hits=$(git diff --cached -- "$file" | grep -E '^\+' | grep -Ein "$PATTERN")
+        if [ -n "$hits" ]; then
+            echo "pre-commit: secret potentiel detecte dans '$file' :"
+            echo "$hits"
+            found=1
+        fi
+    fi
+done
+
+if [ "$found" -eq 1 ]; then
+    echo ""
+    echo "Commit refuse : retirez le secret du contenu avant de committer."
+    exit 1
+fi
+
+exit 0
