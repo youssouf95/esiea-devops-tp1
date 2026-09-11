@@ -5,7 +5,7 @@ Dépôt réalisé dans le cadre du TP DevOps ESIEA (bloc Git avancé & collabora
 ## Équipe
 
 - Youssouf Hassane ([@youssouf95](https://github.com/youssouf95))
-- Romain ([@romiprobal](https://github.com/romiprobal))
+- Romi ([@romiprobal](https://github.com/romiprobal))
 
 ## Stratégie de branches — Git Flow
 
