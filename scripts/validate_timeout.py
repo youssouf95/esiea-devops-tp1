@@ -12,7 +12,7 @@ def validate_timeout(timeout_value):
     Args:
         timeout_value: la valeur de timeout a valider, en secondes.
     """
-    return MIN_TIMEOUT < timeout_value < MAX_TIMEOUT
+    return MIN_TIMEOUT < timeout_value <= MAX_TIMEOUT
 
 
 def validate_retries(retries):
