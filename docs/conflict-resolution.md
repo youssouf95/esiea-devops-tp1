@@ -1,4 +1,4 @@
-# Résolution de conflit — étape 3
+# Résolution de conflit : étape 3
 
 ## Scénario
 
@@ -21,7 +21,7 @@ Git a inséré des marqueurs de conflit (`<<<<<<<`, `=======`, `>>>>>>>`) autour
 `timeout_seconds`, montrant les deux valeurs concurrentes (30 vs 5).
 
 > Note : le premier merge (`feature/increase-timeout`) a lui aussi généré un conflit, car cette
-> branche avait divergé de `main` avant l'application du hotfix `retries` (étape 4) — un exemple
+> branche avait divergé de `main` avant l'application du hotfix `retries` (étape 4), un exemple
 > concret de conflit "de voisinage" (deux lignes adjacentes modifiées chacune d'un côté). Résolu en
 > conservant les deux changements (`timeout_seconds: 30` + `retries: 5`).
 

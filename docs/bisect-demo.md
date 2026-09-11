@@ -1,4 +1,4 @@
-# Scénario git bisect — étape 4
+# Scénario git bisect : étape 4
 
 Un test (`scripts/test_validate_timeout.py`) a commencé à échouer quelque part dans les 7 derniers
 commits de `feature/bisect-demo`, sans savoir lequel était en cause.
@@ -33,7 +33,7 @@ git bisect good 0025035
 
 ## Commit fautif identifié
 
-`85a93d9` — `refactor(scripts): simplifie la condition de validation` a remplacé
+`85a93d9` (`refactor(scripts): simplifie la condition de validation`) a remplacé
 `MIN_TIMEOUT < seconds <= MAX_TIMEOUT` par `MIN_TIMEOUT < seconds < MAX_TIMEOUT`, excluant par erreur
 la borne maximale (60) du domaine valide.
 
