@@ -1,4 +1,4 @@
 app:
   name: esiea-devops-tp1
   timeout_seconds: 10
-  retries: 3
+  retries: 5
