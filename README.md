@@ -41,6 +41,16 @@ Exemples : `feature/hook-anti-secret`, `release/1.1.0`, `hotfix/fix-readme-typo`
 - **Étape 7** — Hook local `pre-commit` anti-secret, et commit signé (GPG) affichant le badge *Verified*.
 - **Étape 8** — Historique conforme à Conventional Commits, tag de release en SemVer.
 
+## Hooks locaux
+
+Le dépôt fournit un hook `pre-commit` anti-secret dans [`hooks/`](hooks/). Pour l'activer localement :
+
+```bash
+git config core.hooksPath hooks
+```
+
+Il refuse tout commit dont le contenu stage correspond à un motif de secret évident (clé AWS, clé privée, `api_key = "..."`, `password = "..."`).
+
 ## Répartition des contributions
 
 Voir `git shortlog -sn` pour la répartition des commits par auteur.
