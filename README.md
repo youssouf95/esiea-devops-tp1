@@ -1,11 +1,6 @@
 # Atelier Git avancé & collaboratif, Séance 1
 
-Dépôt pour le TP DevOps ESIEA (bloc Git avancé & collaboratif).
-
-## Équipe
-
-- Youssouf Hassane ([@youssouf95](https://github.com/youssouf95))
-- Romi Probal ([@romiprobal](https://github.com/romiprobal))
+Dépôt pour le TP DevOps ESIEA (bloc Git avancé & collaboratif), réalisé par Youssouf Hassane ([@youssouf95](https://github.com/youssouf95)).
 
 ## Stratégie de branches : Git Flow
 
@@ -25,7 +20,7 @@ Exemples : `feature/hook-anti-secret`, `release/1.1.0`, `hotfix/fix-readme-typo`
 
 ### Règle de merge
 
-Toute fusion vers `main` ou `develop` passe par une pull request, pas de push direct. Les PR vers `main` sont fusionnées en squash merge pour garder un historique linéaire (protection de branche configurée à l'étape 6). Chaque PR doit être revue et approuvée par le propriétaire désigné dans [`CODEOWNERS`](.github/CODEOWNERS) avant merge. Les commits suivent Conventional Commits (`type(scope): description`).
+Toute fusion vers `main` ou `develop` passe par une pull request, pas de push direct. Les PR vers `main` sont fusionnées en squash merge pour garder un historique linéaire (protection de branche configurée à l'étape 6). Un fichier [`CODEOWNERS`](.github/CODEOWNERS) désigne un propriétaire par zone du dépôt ; en situation réelle d'équipe, chaque PR est revue par ce propriétaire avant merge. Les commits suivent Conventional Commits (`type(scope): description`).
 
 ## Travail réalisé pendant la séance
 
@@ -33,7 +28,7 @@ Toute fusion vers `main` ou `develop` passe par une pull request, pas de push di
 2. Historique nettoyé par rebase interactif sur `feature/rebase-demo` (squash/reword/fixup).
 3. Conflit de merge provoqué et résolu manuellement entre deux branches modifiant la même ligne, voir [docs/conflict-resolution.md](docs/conflict-resolution.md).
 4. Scénario d'incident : cherry-pick d'un hotfix vers une branche de release, et `git bisect` pour isoler un commit fautif, voir [docs/bisect-demo.md](docs/bisect-demo.md).
-5. Fichier `CODEOWNERS` en place, cycle PR/revue/merge réalisé.
+5. Fichier `CODEOWNERS` en place (voir [docs/pr-codeowners.md](docs/pr-codeowners.md) pour le détail du cycle PR/revue/merge testé).
 6. Protection avancée de `main` (PR obligatoire, revue Code Owners, historique linéaire, tags protégés), testée avec un vrai push direct refusé, voir [docs/branch-protection-test.md](docs/branch-protection-test.md).
 7. Hook local `pre-commit` anti-secret (testé), commit signé GPG avec badge Verified.
 8. Historique conforme à Conventional Commits, tag de release en SemVer.
