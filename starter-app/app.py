@@ -27,5 +27,3 @@ def status():
 
 if __name__ == "__main__":
     app.run(debug=True)
-
-x = 1;y = 2  # faute de style volontaire, ligne avec point-virgule
