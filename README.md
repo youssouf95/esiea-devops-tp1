@@ -1,4 +1,6 @@
-# Atelier Git avancé & collaboratif, Séance 1
+# Atelier Git avancé & collaboratif, Séances 1 et 2
+
+![CI](https://github.com/youssouf95/esiea-devops-tp1/actions/workflows/ci.yml/badge.svg)
 
 Dépôt pour le TP DevOps ESIEA (bloc Git avancé & collaboratif), réalisé par Youssouf Hassane ([@youssouf95](https://github.com/youssouf95)).
 
@@ -32,6 +34,21 @@ Toute fusion vers `main` ou `develop` passe par une pull request, pas de push di
 6. Protection avancée de `main` (PR obligatoire, revue Code Owners, historique linéaire, tags protégés), testée avec un vrai push direct refusé, voir [docs/branch-protection-test.md](docs/branch-protection-test.md).
 7. Hook local `pre-commit` anti-secret (testé), commit signé GPG avec badge Verified.
 8. Historique conforme à Conventional Commits, tag de release en SemVer.
+
+## Pipeline CI (Séance 2)
+
+Le workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) se déclenche sur chaque push vers `main` et sur chaque pull request. Il enchaîne un job `lint` (flake8) puis, seulement s'il passe (`needs: lint`), un job `test` qui lance `pytest` sur `starter-app/` en matrice sur Python 3.10, 3.11 et 3.12, avec cache des dépendances pip et rapport de couverture conservé en artefact (même en cas d'échec). Ces checks sont requis par la protection de branche sur `main` : un test cassé bloque le merge tant qu'il n'est pas corrigé (voir [docs/ci-protection-test.md](docs/ci-protection-test.md)).
+
+### Travail réalisé pendant la séance 2
+
+1. Application `starter-app/` intégrée, testée en local avant tout workflow (3 tests, flake8 propre).
+2. Premier workflow minimal, vérifié vert dans l'onglet Actions.
+3. Déclenchement sur push et pull request vérifié concrètement, `push` restreint à `main`.
+4. Job `lint` séparé du job `test` (`needs: lint`), fail-fast vérifié avec une faute de style volontaire ; test ajouté pour `/status`.
+5. Matrice de test sur 3 versions de Python, vérifiée dans les logs.
+6. Cache pip et artefact de couverture, restauration du cache vérifiée sur un second run.
+7. Statut CI obligatoire sur `main`, testé avec une PR dédiée cassant un test puis le corrigeant.
+8. Badge CI ci-dessus et présente consolidation.
 
 ## Hooks locaux
 
