@@ -20,6 +20,10 @@ __pycache__/
 *.pyc
 dist/
 build/
+.venv/
+.pytest_cache/
+htmlcov/
+.coverage
 
 # Logs
 *.log
