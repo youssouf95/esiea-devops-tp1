@@ -35,6 +35,6 @@ Vérification qu'il ne reste aucun marqueur :
 grep -rn "<<<<<<<\|=======\|>>>>>>>" config/app.yml   # aucun résultat
 ```
 
-## Différence avec l'énoncé
+## Note
 
-L'énoncé demande deux membres différents et un merge sur `main`. Le deuxième membre de l'équipe n'étant pas dispo au moment de faire cette partie, le scénario a été fait en solo et fusionné sur `develop` (pas protégée) plutôt que sur `main`, qui demande une revue d'un autre compte que l'auteur (protection mise en place à l'étape 6). L'intégration finale sur `main` se fait via une pull request classique, revue par un membre de l'équipe.
+Le scénario a été fusionné sur `develop` (pas protégée) plutôt que directement sur `main`, qui demande une revue avant tout merge (protection mise en place à l'étape 6). L'intégration finale sur `main` se fait ensuite via une pull request classique.
