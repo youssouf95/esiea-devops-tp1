@@ -63,12 +63,35 @@ L'image `web` (`starter-app/Dockerfile`) est un build multi-stage : un stage `bu
 
 Soit une réduction d'environ **87%** (image ~7,9× plus légère), mesurée avec `docker images` sur les deux images reconstruites juste avant la mesure.
 
+### Comment builder et lancer
+
+```bash
+cd starter-app
+docker build -t esiea-devops-tp1-web:local .          # image seule
+docker compose up -d                                   # stack complete (web + redis)
+docker compose ps                                       # verifier l'etat healthy des deux services
+curl http://localhost:5000/visits                       # compteur persistant cote Redis
+docker compose down                                      # arreter (garder -v pour aussi supprimer le volume)
+```
+
+### Image publiée
+
+`ghcr.io/youssouf95/esiea-devops-tp1-web` — tags `1.0.0` et `latest`.
+
+```bash
+docker pull ghcr.io/youssouf95/esiea-devops-tp1-web:1.0.0
+```
+
 ### Travail réalisé pendant la séance 3
 
 1. `starter-app/` mis à jour (ajout de `redis`/`fakeredis`), premier `Dockerfile` naïf (une étape, image `python:3.12` complète). Piège rencontré et corrigé : Flask liait `127.0.0.1` par défaut, injoignable depuis l'hôte malgré le port publié — corrigé avec `app.run(host="0.0.0.0")`.
 2. Taille mesurée (`docker images`, `docker history`), utilisateur non-root ajouté (`USER appuser`, vérifié avec `docker exec ... whoami`), `.dockerignore` ajouté (contexte de build réduit de 226KB à 120B).
 3. Multi-stage build (stage `builder` + stage final `slim`), remplacement du serveur de dev Flask par `gunicorn`.
 4. Gain mesuré ci-dessus.
+5. Endpoint `/visits` ajouté (`get_redis_client()`), `docker-compose.yml` avec `web` + `redis`, réseau dédié, volume nommé pour la persistance. Persistance vérifiée : le compteur survit à un `docker compose restart web`.
+6. `HEALTHCHECK` sur `web` (requête Python vers `/health`) et sur `redis` (`redis-cli ping`), `depends_on: condition: service_healthy`. Vérifié dans `docker compose ps` : `redis` passe `healthy` avant que `web` ne devienne `healthy` à son tour, pas immédiatement.
+7. Image poussée sur `ghcr.io/youssouf95/esiea-devops-tp1-web` (tags `1.0.0` et `latest`), authentification via token classique `write:packages`. Vérifié récupérable depuis zéro (`docker rmi` local puis `docker pull` réussi, même digest).
+8. README consolidé (cette section).
 
 ## Hooks locaux
 
