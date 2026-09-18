@@ -1,4 +1,4 @@
-# Atelier Git avancé & collaboratif, Séances 1 et 2
+# Atelier Git avancé & collaboratif, Séances 1, 2 et 3
 
 ![CI](https://github.com/youssouf95/esiea-devops-tp1/actions/workflows/ci.yml/badge.svg)
 
@@ -49,6 +49,26 @@ Le workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) se déclenche
 6. Cache pip et artefact de couverture, restauration du cache vérifiée sur un second run.
 7. Statut CI obligatoire sur `main`, testé avec une PR dédiée cassant un test puis le corrigeant.
 8. Badge CI ci-dessus et présente consolidation.
+
+## Conteneurisation Docker (Séance 3)
+
+L'image `web` (`starter-app/Dockerfile`) est un build multi-stage : un stage `builder` (`python:3.12-slim`) installe les dépendances dans un environnement isolé, un stage final (aussi `python:3.12-slim`) ne récupère que ce qui est nécessaire à l'exécution via `COPY --from=builder`, tourne en utilisateur non-root (`appuser`) et sert l'application avec `gunicorn` (pas le serveur de dev Flask).
+
+### Gain mesuré (étape 4)
+
+| Image | Base | Taille |
+|---|---|---|
+| `app-naive:1.0` (Dockerfile naïf, une seule étape) | `python:3.12` | 1.13 GB |
+| `app-optim:1.0` (multi-stage) | `python:3.12-slim` | 143 MB |
+
+Soit une réduction d'environ **87%** (image ~7,9× plus légère), mesurée avec `docker images` sur les deux images reconstruites juste avant la mesure.
+
+### Travail réalisé pendant la séance 3
+
+1. `starter-app/` mis à jour (ajout de `redis`/`fakeredis`), premier `Dockerfile` naïf (une étape, image `python:3.12` complète). Piège rencontré et corrigé : Flask liait `127.0.0.1` par défaut, injoignable depuis l'hôte malgré le port publié — corrigé avec `app.run(host="0.0.0.0")`.
+2. Taille mesurée (`docker images`, `docker history`), utilisateur non-root ajouté (`USER appuser`, vérifié avec `docker exec ... whoami`), `.dockerignore` ajouté (contexte de build réduit de 226KB à 120B).
+3. Multi-stage build (stage `builder` + stage final `slim`), remplacement du serveur de dev Flask par `gunicorn`.
+4. Gain mesuré ci-dessus.
 
 ## Hooks locaux
 
