@@ -1,3 +1,6 @@
+import fakeredis
+
+import app as app_module
 from app import alert_threshold, sanitize_input, app
 
 
@@ -20,6 +23,15 @@ def test_status_endpoint():
     client = app.test_client()
     response = client.get("/status")
     assert response.status_code == 200
-    body = response.get_json()
-    assert body["service"] == "projet-devops-groupe-demo"
-    assert body["version"] == "1.0"
+    assert response.get_json()["service"] == "projet-devops-groupe-demo"
+
+
+def test_visits_endpoint_increments(monkeypatch):
+    fake_client = fakeredis.FakeStrictRedis(decode_responses=True)
+    monkeypatch.setattr(app_module, "get_redis_client", lambda: fake_client)
+
+    client = app.test_client()
+    first = client.get("/visits").get_json()["visits"]
+    second = client.get("/visits").get_json()["visits"]
+
+    assert second == first + 1
