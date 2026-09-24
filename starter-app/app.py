@@ -50,5 +50,12 @@ def visits():
     return jsonify(visits=count), 200
 
 
+@app.route("/visits")
+def visits():
+    client = get_redis_client()
+    count = client.incr("visits")
+    return jsonify(visits=count), 200
+
+
 if __name__ == "__main__":
     app.run(host="0.0.0.0", debug=True)
