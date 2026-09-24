@@ -27,6 +27,10 @@ def sanitize_input(value):
 
 @app.route("/health")
 def health():
+    try:
+        get_redis_client().ping()
+    except redis.RedisError:
+        return jsonify(status="error"), 503
     return jsonify(status="ok"), 200
 
 
