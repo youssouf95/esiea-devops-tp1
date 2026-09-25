@@ -22,6 +22,10 @@ fi
 echo "Actif actuellement : $ACTIVE"
 echo "Demarrage de la nouvelle version : $IDLE"
 
+COMMIT_SHA=$(git rev-parse HEAD)
+export COMMIT_SHA
+EXPECTED_SHA="${EXPECTED_SHA:-$COMMIT_SHA}"
+
 docker compose -f "$COMPOSE_FILE" -p "$PROJECT" --profile "$IDLE" up -d --build "app-$IDLE"
 
 READY=0
@@ -44,7 +48,7 @@ fi
 if ! curl -sf "http://localhost:$IDLE_PORT/status" \
   | python3 -c \
   "import sys, json; d = json.load(sys.stdin); \
-  sys.exit(0 if d['deploy_color']=='$IDLE' else 1)"; then
+  sys.exit(0 if d['deploy_color']=='$IDLE' and d['commit_sha']=='$EXPECTED_SHA' else 1)"; then
   echo "ÉCHEC : le smoke test a échoué sur app-$IDLE"
   echo "ROLLBACK : arrêt de app-$IDLE, $ACTIVE reste actif"
   docker compose -f "$COMPOSE_FILE" -p "$PROJECT" --profile "$IDLE" stop "app-$IDLE"
