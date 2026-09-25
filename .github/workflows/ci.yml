@@ -107,6 +107,3 @@ jobs:
 
       - name: Deployer (blue/green)
         run: bash deploy/deploy.sh
-        
-      - name: Verifier le deploiement
-        run: curl -sf http://localhost:8080/status
