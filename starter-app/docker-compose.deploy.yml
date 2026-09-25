@@ -9,6 +9,7 @@ services:
     environment:
       REDIS_HOST: redis
       DEPLOY_COLOR: blue
+      COMMIT_SHA: ${COMMIT_SHA:-unknown}
     networks:
       - app-network
 
@@ -22,6 +23,7 @@ services:
     environment:
       REDIS_HOST: redis
       DEPLOY_COLOR: green
+      COMMIT_SHA: ${COMMIT_SHA:-unknown}
     networks:
       - app-network
 
